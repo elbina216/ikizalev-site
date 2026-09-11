@@ -25,9 +25,9 @@ exports.handler = async function (event) {
   const key = date + '_' + slot;
 
   try {
-    const wasSet = await store.set(key, JSON.stringify({ bookedAt: new Date().toISOString() }), { onlyIfNew: true });
+    const result = await store.set(key, JSON.stringify({ bookedAt: new Date().toISOString() }), { onlyIfNew: true });
 
-    if (!wasSet) {
+    if (!result.modified) {
       return { statusCode: 409, body: JSON.stringify({ ok: false, error: 'already_booked' }) };
     }
 
@@ -36,3 +36,5 @@ exports.handler = async function (event) {
     return { statusCode: 500, body: JSON.stringify({ ok: false, error: 'Storage error' }) };
   }
 };
+
+
