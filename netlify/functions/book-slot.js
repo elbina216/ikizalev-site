@@ -17,7 +17,11 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ ok: false, error: 'Invalid JSON' }) };
   }
 
-  const store = getStore('bookings');
+  const store = getStore({
+    name: 'bookings',
+    siteID: process.env.SITES_ID,
+    token: process.env.BLOBS_TOKEN
+  });
   const key = date + '_' + slot;
 
   try {
