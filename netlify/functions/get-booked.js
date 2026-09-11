@@ -8,7 +8,8 @@ exports.handler = async function (event) {
   const store = getStore({
     name: 'bookings',
     siteID: process.env.SITES_ID,
-    token: process.env.BLOBS_TOKEN
+    token: process.env.BLOBS_TOKEN,
+    consistency: 'strong'
   });
 
   try {
