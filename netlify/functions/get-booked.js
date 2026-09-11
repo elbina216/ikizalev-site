@@ -5,7 +5,11 @@ exports.handler = async function (event) {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const store = getStore('bookings');
+  const store = getStore({
+    name: 'bookings',
+    siteID: process.env.SITES_ID,
+    token: process.env.BLOBS_TOKEN
+  });
 
   try {
     const { blobs } = await store.list();
