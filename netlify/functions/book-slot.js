@@ -26,15 +26,15 @@ exports.handler = async function (event) {
 
   try {
     const result = await store.set(key, JSON.stringify({ bookedAt: new Date().toISOString() }), { onlyIfNew: true });
+    const wasModified = typeof result === 'boolean' ? result : !!(result && result.modified);
 
-    if (!result.modified) {
+    if (!wasModified) {
       return { statusCode: 409, body: JSON.stringify({ ok: false, error: 'already_booked' }) };
     }
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (e) {
-    return { statusCode: 500, body: JSON.stringify({ ok: false, error: 'Storage error' }) };
+    return { statusCode: 500, body: JSON.stringify({ ok: false, error: 'Storage error', detail: e.message }) };
   }
 };
-
 
